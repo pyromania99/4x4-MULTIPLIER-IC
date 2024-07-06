@@ -1,0 +1,123 @@
+**
+.include TSMC_180nm.txt
+
+.option scale=0.09u
+.global Gnd
+
+*capacitor
+Cout output gnd 1.5f
+
+*sources
+V1  drain gnd dc 1
+VA  A gnd pulse 1 0 0 0.1n 0.1n 40n 80n
+VB  B gnd pulse 0 1 0 0.1n 0.1n 80n 160n 
+
+***
+* pulse(V1 V2 TD TR TF PW PER
+* V1 = the initial amplitude
+* V2 = the pulse amplitude
+* TD = the delay time in seconds
+* TR = the rise time in seconds
+* TF = the fall time in seconds
+* PW = the pulse width in seconds
+* PER = the period in seconds
+***
+
+M1000 a_1_83# A drain w_n19_77# CMOSP w=8 l=5
++  ad=184 pd=62 as=736 ps=312
+M1001 a_n80_8# A drain w_n100_2# CMOSP w=8 l=5
++  ad=184 pd=62 as=0 ps=0
+M1002 a_1_83# a_n80_8# a_1_34# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=207 ps=64
+M1003 drain a_1_n77# output w_67_n1# CMOSP w=8 l=5
++  ad=0 pd=0 as=184 ps=62
+M1004 drain a_n80_8# a_1_n77# w_n19_n83# CMOSP w=8 l=5
++  ad=0 pd=0 as=184 ps=62
+M1005 drain B a_n80_8# w_n100_2# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1006 drain a_n80_8# a_1_83# w_n19_77# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1007 a_1_n126# B Gnd Gnd CMOSN w=9 l=5
++  ad=207 pd=64 as=504 ps=184
+M1008 output a_1_83# drain w_67_n1# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1009 a_1_34# A Gnd Gnd CMOSN w=9 l=5
++  ad=0 pd=0 as=0 ps=0
+M1010 a_n80_8# B a_n80_n41# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=207 ps=64
+M1011 a_n80_n41# A Gnd Gnd CMOSN w=9 l=5
++  ad=0 pd=0 as=0 ps=0
+M1012 a_1_n77# a_n80_8# a_1_n126# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1013 a_1_n77# B drain w_n19_n83# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1014 a_87_n44# a_1_83# Gnd Gnd CMOSN w=9 l=5
++  ad=207 pd=64 as=0 ps=0
+M1015 output a_1_n77# a_87_n44# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+C0 a_n80_8# B 0.20fF
+C1 w_n100_2# A 0.12fF
+C2 drain a_1_83# 0.33fF
+C3 a_n80_8# a_1_n77# 0.20fF
+C4 w_n100_2# a_n80_8# 0.03fF
+C5 Gnd B 0.18fF
+C6 w_n19_n83# drain 0.08fF
+C7 w_n19_n83# B 0.12fF
+C8 w_n19_77# A 0.12fF
+C9 Gnd a_1_n77# 0.20fF
+C10 w_67_n1# a_1_83# 0.12fF
+C11 w_n19_n83# a_1_n77# 0.03fF
+C12 w_n19_77# a_n80_8# 0.12fF
+C13 w_n19_77# a_1_83# 0.03fF
+C14 drain w_n100_2# 0.08fF
+C15 w_n100_2# B 0.12fF
+C16 drain w_67_n1# 0.08fF
+C17 a_1_n77# output 0.20fF
+C18 a_n80_8# a_1_83# 0.20fF
+C19 w_67_n1# a_1_n77# 0.12fF
+C20 w_n19_77# drain 0.19fF
+C21 a_n80_8# Gnd 0.18fF
+C22 w_67_n1# output 0.03fF
+C23 drain A 0.29fF
+C24 w_n19_n83# a_n80_8# 0.12fF
+C25 drain a_n80_8# 0.18fF
+C26 output Gnd 0.45fF
+C27 a_1_n77# Gnd 1.85fF
+C28 B Gnd 1.41fF
+C29 Gnd Gnd 5.54fF
+C30 a_1_83# Gnd 1.39fF
+C31 a_n80_8# Gnd 0.44fF
+C32 A Gnd 1.43fF
+C33 drain Gnd 0.40fF
+C34 w_n19_n83# Gnd 1.37fF
+C35 w_67_n1# Gnd 1.37fF
+C36 w_n100_2# Gnd 1.37fF
+C37 w_n19_77# Gnd 1.37fF
+
+.tran 0.01us 1us
+
+*Control 
+.control
+
+run
+plot v(A) v(output)+2 v(B)+4
+
+***
+meas tran delay_a_lh
++trig v(a) val =0.5 rise=1 targ v(output) val =0.5 fall =1
+meas tran delay_a_hl
++trig v(a) val =0.5 fall=1 targ v(output) val =0.5 rise =1
+
+meas tran delay_b_lh
++trig v(b) val =0.5 rise=1 targ v(output) val =0.5 fall =1
+meas tran delay_b_hl
++trig v(b) val =0.5 fall=1 targ v(output) val =0.5 rise =1
+
+echo delay_a_lh: "$&delay_a_lh" 
+echo delay_a_hl: "$&delay_a_hl" 
+echo delay_b_lh: "$&delay_b_lh" 
+echo delay_b_hl: "$&delay_b_hl"
+
+.endc
+
+.end

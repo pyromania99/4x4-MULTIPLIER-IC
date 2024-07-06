@@ -1,0 +1,151 @@
+**
+.include TSMC_180nm.txt
+
+.option scale=0.09u
+.global Gnd
+
+*capacitor
+Csum Sum gnd 1.5f
+Ccarry Carry gnd 1.5f
+
+*sources
+V1  drain gnd dc 1
+VA  A gnd pulse 1 0 0 0.1n 0.1n 40n 80n
+VB  B gnd pulse 0 1 0 0.1n 0.1n 80n 160n 
+
+***
+* pulse(V1 V2 TD TR TF PW PER
+* V1 = the initial amplitude
+* V2 = the pulse amplitude
+* TD = the delay time in seconds
+* TR = the rise time in seconds
+* TF = the fall time in seconds
+* PW = the pulse width in seconds
+* PER = the period in seconds
+***
+
+M1000 a_626_213# a_545_298# a_626_164# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=207 ps=64
+M1001 a_549_107# B a_549_58# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=207 ps=64
+M1002 a_545_249# A Gnd Gnd CMOSN w=9 l=5
++  ad=207 pd=64 as=774 ps=280
+M1003 a_545_298# B a_545_249# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1004 Sum a_626_373# drain w_692_289# CMOSP w=8 l=5
++  ad=184 pd=62 as=992 ps=424
+M1005 drain a_626_213# Sum w_692_289# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1006 a_626_213# B drain w_606_207# CMOSP w=8 l=5
++  ad=184 pd=62 as=0 ps=0
+M1007 a_549_107# A drain w_529_101# CMOSP w=8 l=5
++  ad=184 pd=62 as=0 ps=0
+M1008 drain a_545_298# a_626_213# w_606_207# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1009 drain B a_549_107# w_529_101# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1010 a_626_324# A Gnd Gnd CMOSN w=9 l=5
++  ad=207 pd=64 as=0 ps=0
+M1011 a_626_373# a_545_298# a_626_324# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1012 a_545_298# A drain w_525_292# CMOSP w=8 l=5
++  ad=184 pd=62 as=0 ps=0
+M1013 drain B a_545_298# w_525_292# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1014 Carry a_549_107# Gnd Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1015 a_549_58# A Gnd Gnd CMOSN w=9 l=5
++  ad=0 pd=0 as=0 ps=0
+M1016 Carry a_549_107# drain w_614_101# CMOSP w=8 l=5
++  ad=136 pd=50 as=0 ps=0
+M1017 a_626_373# A drain w_606_367# CMOSP w=8 l=5
++  ad=184 pd=62 as=0 ps=0
+M1018 drain a_545_298# a_626_373# w_606_367# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+M1019 a_712_246# a_626_373# Gnd Gnd CMOSN w=9 l=5
++  ad=207 pd=64 as=0 ps=0
+M1020 Sum a_626_213# a_712_246# Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1021 a_626_164# B Gnd Gnd CMOSN w=9 l=5
++  ad=0 pd=0 as=0 ps=0
+C0 B drain 0.25fF
+C1 drain w_606_367# 0.19fF
+C2 a_626_213# Gnd 0.20fF
+C3 drain w_614_101# 0.04fF
+C4 a_545_298# w_525_292# 0.03fF
+C5 B Gnd 0.30fF
+C6 a_626_213# w_606_207# 0.03fF
+C7 Sum w_692_289# 0.03fF
+C8 B w_529_101# 0.12fF
+C9 Gnd drain 0.08fF
+C10 drain w_529_101# 0.08fF
+C11 a_626_213# a_545_298# 0.20fF
+C12 A w_525_292# 0.12fF
+C13 a_626_373# w_606_367# 0.03fF
+C14 a_626_373# drain 0.33fF
+C15 B w_606_207# 0.12fF
+C16 a_626_213# w_692_289# 0.12fF
+C17 drain w_606_207# 0.08fF
+C18 a_545_298# w_606_367# 0.12fF
+C19 B a_545_298# 0.20fF
+C20 a_549_107# B 0.20fF
+C21 a_545_298# drain 0.18fF
+C22 Carry w_614_101# 0.03fF
+C23 drain w_692_289# 0.08fF
+C24 B A 0.23fF
+C25 A w_606_367# 0.12fF
+C26 A drain 0.46fF
+C27 a_549_107# w_614_101# 0.12fF
+C28 Gnd a_545_298# 0.18fF
+C29 a_549_107# w_529_101# 0.03fF
+C30 Gnd A 0.21fF
+C31 a_626_373# a_545_298# 0.20fF
+C32 Sum a_626_213# 0.18fF
+C33 A w_529_101# 0.12fF
+C34 a_545_298# w_606_207# 0.12fF
+C35 a_626_373# w_692_289# 0.12fF
+C36 B w_525_292# 0.12fF
+C37 drain w_525_292# 0.08fF
+C38 Carry Gnd 0.16fF
+C39 a_549_107# Gnd 1.10fF
+C40 Sum Gnd 0.30fF
+C41 a_626_213# Gnd 1.85fF
+C42 B Gnd 2.86fF
+C43 Gnd Gnd 6.89fF
+C44 a_626_373# Gnd 1.39fF
+C45 A Gnd 3.39fF
+C46 drain Gnd 0.18fF
+C47 w_614_101# Gnd 0.90fF
+C48 w_529_101# Gnd 1.37fF
+C49 w_606_207# Gnd 1.37fF
+C50 w_692_289# Gnd 1.37fF
+C51 w_525_292# Gnd 1.37fF
+C52 w_606_367# Gnd 1.37fF
+
+.tran 0.01us 1us
+
+*Control 
+.control
+
+run
+plot v(A) v(Carry)+2 v(Sum)+4 v(B)+6
+
+***
+meas tran delay_a_lh
++trig v(a) val =0.5 rise=1 targ v(Sum) val =0.5 fall =1
+meas tran delay_a_hl
++trig v(a) val =0.5 fall=1 targ v(Sum) val =0.5 rise =1
+
+meas tran delay_b_lh
++trig v(b) val =0.5 rise=1 targ v(Sum) val =0.5 fall =1
+meas tran delay_b_hl
++trig v(b) val =0.5 fall=1 targ v(Sum) val =0.5 rise =1
+
+echo delay_a_lh: "$&delay_a_lh" 
+echo delay_a_hl: "$&delay_a_hl" 
+echo delay_b_lh: "$&delay_b_lh" 
+echo delay_b_hl: "$&delay_b_hl"
+
+.endc
+
+.end

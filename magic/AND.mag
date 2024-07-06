@@ -1,0 +1,96 @@
+magic
+tech scmos
+timestamp 1668449747
+<< nwell >>
+rect 252 -265 320 -245
+rect 337 -265 382 -245
+<< ntransistor >>
+rect 267 -308 272 -299
+rect 295 -308 300 -299
+rect 352 -308 357 -299
+<< ptransistor >>
+rect 267 -259 272 -251
+rect 295 -259 300 -251
+rect 352 -259 357 -251
+<< ndiffusion >>
+rect 261 -308 267 -299
+rect 272 -308 295 -299
+rect 300 -308 307 -299
+rect 344 -308 352 -299
+rect 357 -308 365 -299
+<< pdiffusion >>
+rect 265 -259 267 -251
+rect 272 -259 280 -251
+rect 287 -259 295 -251
+rect 300 -259 307 -251
+rect 350 -259 352 -251
+rect 357 -259 365 -251
+rect 372 -259 374 -251
+<< ndcontact >>
+rect 277 -236 284 -230
+rect 298 -236 305 -230
+rect 350 -236 358 -230
+rect 368 -236 377 -230
+rect 253 -308 261 -299
+rect 307 -308 315 -299
+rect 336 -308 344 -299
+rect 365 -308 372 -299
+<< pdcontact >>
+rect 258 -259 265 -251
+rect 280 -259 287 -251
+rect 307 -259 314 -251
+rect 343 -259 350 -251
+rect 365 -259 372 -251
+<< psubstratepcontact >>
+rect 265 -325 273 -317
+rect 293 -325 301 -317
+rect 344 -325 353 -317
+rect 363 -325 372 -317
+<< polysilicon >>
+rect 267 -251 272 -243
+rect 295 -251 300 -243
+rect 352 -251 357 -243
+rect 267 -299 272 -259
+rect 295 -299 300 -259
+rect 352 -275 357 -259
+rect 315 -283 357 -275
+rect 352 -299 357 -283
+rect 267 -311 272 -308
+rect 295 -311 300 -308
+rect 352 -312 357 -308
+<< polycontact >>
+rect 307 -283 315 -275
+<< metal1 >>
+rect 258 -236 277 -230
+rect 284 -236 298 -230
+rect 305 -236 350 -230
+rect 358 -236 368 -230
+rect 377 -236 380 -230
+rect 258 -251 265 -236
+rect 307 -251 314 -236
+rect 343 -251 350 -236
+rect 280 -275 287 -259
+rect 280 -283 307 -275
+rect 307 -299 315 -283
+rect 365 -299 372 -259
+rect 253 -317 261 -308
+rect 336 -317 344 -308
+rect 253 -325 265 -317
+rect 273 -325 293 -317
+rect 301 -325 344 -317
+rect 353 -325 363 -317
+rect 372 -325 373 -317
+use and  and_0
+timestamp 0
+transform 1 0 302 0 1 -408
+box 0 0 1 1
+<< labels >>
+rlabel polysilicon 267 -299 272 -265 1 A
+rlabel polysilicon 295 -299 300 -265 1 B
+rlabel metal1 280 -283 287 -251 1 inv_in
+rlabel metal1 307 -299 315 -275 1 inv_in
+rlabel ndiffusion 278 -308 288 -299 1 b_w_n
+rlabel metal1 253 -325 344 -317 1 Gnd
+rlabel metal1 365 -282 372 -274 1 output
+rlabel metal1 258 -236 379 -230 5 drain
+<< end >>

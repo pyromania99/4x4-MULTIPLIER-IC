@@ -1,0 +1,357 @@
+**
+.include TSMC_180nm.txt
+
+.global Gnd
+
+*parameters
+.param LAMBDA = 0.18u
+.param width_N = {10*LAMBDA}
+.param width_P = {2.5*width_N}
+
+*capacitor
+* CS  Sum 0 1f
+* CC  Carry 0 1f
+
+CP0 P0 gnd 0.5f
+CP1 P1 gnd 0.5f
+CP2 P2 gnd 0.5f
+CP3 P3 gnd 0.5f
+CP4 P4 gnd 0.5f
+CP5 P5 gnd 0.5f
+CP6 P6 gnd 0.5f
+CC5 C5 gnd 0.5f
+
+*sources
+V1  drain gnd  dc 1
+VA0 A0 gnd  PULSE(0 1 0 0.1n 0.1n 20n 40n)
+VA1 A1 gnd  PULSE(0 1 0 0.1n 0.1n 40n 80n)
+VA2 A2 gnd  PULSE(0 1 0 0.1n 0.1n 80n 160n)
+VA3 A3 gnd  PULSE(0 1 0 0.1n 0.1n 160n 320n)
+VB0 B0 gnd  PULSE(0 1 0 0.1n 0.1n 320n 640n)
+VB1 B1 gnd  PULSE(0 1 0 0.1n 0.1n 640n 1280n)
+VB2 B2 gnd  PULSE(0 1 0 0.1n 0.1n 1280n 2560n)
+VB3 B3 gnd  PULSE(0 1 0 0.1n 0.1n 2560n 5120n)
+
+***
+* pulse(V1 V2 TD TR TF PW PER
+* V1 = the initial amplitude
+* V2 = the pulse amplitude
+* TD = the delay time in seconds
+* TR = the rise time in seconds
+* TF = the fall time in seconds
+* PW = the pulse width in seconds
+* PER = the pe
+
+*Netlist
+
+*A3B3
+ x1  A3 B3  in1  drain AND	
+ *A3B2
+ x2  A3 B2  in2  drain AND	
+ *A2B3
+ x3  A2 B3  in3  drain AND	
+ *A1B3
+ x4  A1 B3  in4  drain AND	
+ *A3B1
+ x5  A3 B1  in5  drain AND	
+ *A2B2
+ x6  A2 B2  in6  drain AND	
+ *A2B1
+ x7  A2 B1  in7  drain AND	
+ *A3B0
+ x8  A3 B0  in8  drain AND	
+ *A0B3
+ x9  A0 B3  in9  drain AND	
+ *A1B2
+ x10 A1 B2  in10 drain AND	
+ *A1B1
+ x11 A1 B1  in11 drain AND	
+ *A2B0
+ x12 A2 B0  in12 drain AND 	
+ *A0B2
+ x13 A0 B2  in13 drain AND 	
+ *A1B0
+ x14 A1 B0  in14 drain AND	
+ *A0B1
+ x15 A0 B1  in15 drain AND	
+ *A0B0
+ x16 A0 B0  P0 drain AND  	
+ 
+ x17 in15 in14 P1  l21	   drain HA
+ x18 in12 in11 l22 l23	   drain HA
+ x19 l22  in13 l21 P2  l31 drain FA
+ x20 l24  in10 l23 l32 l33 drain FA
+ x21 in9  l32  l31 P3  l41 drain FA
+ x22 in7  in8  l24 l25     drain HA
+ x23 in5  in6  l25 l34 l35 drain FA
+ X24 in2  in3  l35 l26 l27 drain FA
+ x25 in4  l34  l33 l42 l43 drain FA
+ x26 l42  l41  P4  l51     drain HA
+ x27 l26  l43  l51 P5  l61 drain FA
+ x28 in1  l27  l61 P6  C5  drain FA
+ 
+.tran 0.1ns 5120ns
+
+*Control 
+.control
+
+run
+
+plot v(P0) v(P1)+2 v(P2)+4 v(P3)+6 v(P4)+8 v(P5)+10 v(P6)+12 v(C5)+14
+
+plot  v(A0) v(A1)+2 v(A2)+4 v(A3)+6 v(B0)+8 v(B1)+10 v(B2)+12 v(B3)+14
+
+
+*node A0
+meas tran d_HL_A0_1 trig v(A0) val=0.5 rise=1 targ v(P0) val=0.5 rise=1
+meas tran d_LH_A0_1 trig v(A0) val=0.5 fall=1 targ v(P0) val=0.5 fall=1
+let d_A0_1 = (d_HL_A0_1 + d_LH_A0_1)/2
+
+
+meas tran d_HL_A0_2 trig v(A0) val=0.5 rise=1 targ v(P1) val=0.5 rise=1
+meas tran d_LH_A0_2 trig v(A0) val=0.5 fall=1 targ v(P1) val=0.5 fall=1
+let d_A0_2 = (d_HL_A0_2 + d_LH_A0_2)/2
+
+
+meas tran d_HL_A0_3 trig v(A0) val=0.5 rise=1 targ v(P2) val=0.5 rise=1
+meas tran d_LH_A0_3 trig v(A0) val=0.5 fall=1 targ v(P2) val=0.5 fall=1
+let d_A0_3 = (d_HL_A0_3 + d_LH_A0_3)/2
+
+
+meas tran d_HL_A0_4 trig v(A0) val=0.5 rise=1 targ v(P3) val=0.5 rise=1
+meas tran d_LH_A0_4 trig v(A0) val=0.5 fall=1 targ v(P3) val=0.5 fall=1
+let d_A0_4 = (d_HL_A0_4 + d_LH_A0_4)/2
+
+
+meas tran d_HL_A0_5 trig v(A0) val=0.5 rise=1 targ v(P4) val=0.5 rise=1
+meas tran d_LH_A0_5 trig v(A0) val=0.5 fall=1 targ v(P4) val=0.5 fall=1
+let d_A0_5 = (d_HL_A0_5 + d_LH_A0_5)/2
+
+meas tran d_HL_A0_6 trig v(A0) val=0.5 rise=1 targ v(P5) val=0.5 rise=1
+meas tran d_LH_A0_6 trig v(A0) val=0.5 fall=1 targ v(P5) val=0.5 fall=1
+let d_A0_6 = (d_HL_A0_6 + d_LH_A0_6)/2
+
+meas tran d_HL_A0_7 trig v(A0) val=0.5 rise=1 targ v(P6) val=0.5 rise=1
+meas tran d_LH_A0_7 trig v(A0) val=0.5 fall=1 targ v(P6) val=0.5 fall=1
+let d_A0_7 = (d_HL_A0_7 + d_LH_A0_7)/2
+
+
+meas tran d_HL_A0_8 trig v(A0) val=0.5 rise=1 targ v(C5) val=0.5 rise=1
+meas tran d_LH_A0_8 trig v(A0) val=0.5 fall=1 targ v(C5) val=0.5 fall=1
+let d_A0_8 = (d_HL_A0_8 + d_LH_A0_8)/2
+
+
+echo d_A0_1: "$&d_A0_1" > spicedelay_out.txt
+echo d_A0_2: "$&d_A0_2" >> spicedelay_out.txt
+echo d_A0_3: "$&d_A0_3" >> spicedelay_out.txt
+echo d_A0_4: "$&d_A0_4" >> spicedelay_out.txt
+echo d_A0_5: "$&d_A0_5" >> spicedelay_out.txt
+echo d_A0_6: "$&d_A0_6" >> spicedelay_out.txt
+echo d_A0_7: "$&d_A0_7" >> spicedelay_out.txt
+echo d_A0_8: "$&d_A0_8" >> spicedelay_out.txt 
+
+*node A1 
+
+meas tran d_HL_A1_1 trig v(A1) val=0.5 rise=1 targ v(P0) val=0.5 rise=1
+meas tran d_LH_A1_1 trig v(A1) val=0.5 fall=1 targ v(P0) val=0.5 fall=1
+let d_A1_1 = (d_HL_A1_1 + d_LH_A1_1)/2
+
+
+meas tran d_HL_A1_2 trig v(A1) val=0.5 rise=1 targ v(P1) val=0.5 rise=1
+meas tran d_LH_A1_2 trig v(A1) val=0.5 fall=1 targ v(P1) val=0.5 fall=1
+let d_A1_2 = (d_HL_A1_2 + d_LH_A1_2)/2
+
+
+meas tran d_HL_A1_3 trig v(A1) val=0.5 rise=1 targ v(P2) val=0.5 rise=1
+meas tran d_LH_A1_3 trig v(A1) val=0.5 fall=1 targ v(P2) val=0.5 fall=1
+let d_A1_3 = (d_HL_A1_3 + d_LH_A1_3)/2
+
+
+meas tran d_HL_A1_4 trig v(A1) val=0.5 rise=1 targ v(P3) val=0.5 rise=1
+meas tran d_LH_A1_4 trig v(A1) val=0.5 fall=1 targ v(P3) val=0.5 fall=1
+let d_A1_4 = (d_HL_A1_4 + d_LH_A1_4)/2
+
+
+meas tran d_HL_A1_5 trig v(A1) val=0.5 rise=1 targ v(P4) val=0.5 rise=1
+meas tran d_LH_A1_5 trig v(A1) val=0.5 fall=1 targ v(P4) val=0.5 fall=1
+let d_A1_5 = (d_HL_A1_5 + d_LH_A1_5)/2
+
+meas tran d_HL_A1_6 trig v(A1) val=0.5 rise=1 targ v(P5) val=0.5 rise=1
+meas tran d_LH_A1_6 trig v(A1) val=0.5 fall=1 targ v(P5) val=0.5 fall=1
+let d_A1_6 = (d_HL_A1_6 + d_LH_A1_6)/2
+
+meas tran d_HL_A1_7 trig v(A1) val=0.5 rise=1 targ v(P6) val=0.5 rise=1
+meas tran d_LH_A1_7 trig v(A1) val=0.5 fall=1 targ v(P6) val=0.5 fall=1
+let d_A1_7 = (d_HL_A1_7 + d_LH_A1_7)/2
+
+
+meas tran d_HL_A1_8 trig v(A1) val=0.5 rise=1 targ v(C5) val=0.5 rise=1
+meas tran d_LH_A1_8 trig v(A1) val=0.5 fall=1 targ v(C5) val=0.5 fall=1
+let d_A1_8 = (d_HL_A1_8 + d_LH_A1_8)/2
+
+
+
+echo d_A1_1: "$&d_A1_1" >> spicedelay_out.txt
+echo d_A1_2: "$&d_A1_2" >> spicedelay_out.txt
+echo d_A1_3: "$&d_A1_3" >> spicedelay_out.txt
+echo d_A1_4: "$&d_A1_4" >> spicedelay_out.txt
+echo d_A1_5: "$&d_A1_5" >> spicedelay_out.txt
+echo d_A1_6: "$&d_A1_6" >> spicedelay_out.txt
+echo d_A1_7: "$&d_A1_7" >> spicedelay_out.txt
+echo d_A1_8: "$&d_A1_8" >> spicedelay_out.txt
+
+*node A2
+
+meas tran d_HL_A2_1 trig v(A2) val=0.5 rise=1 targ v(P0) val=0.5 rise=1
+meas tran d_LH_A2_1 trig v(A2) val=0.5 fall=1 targ v(P0) val=0.5 fall=1
+let d_A2_1 = (d_HL_A2_1 + d_LH_A2_1)/2
+
+
+meas tran d_HL_A2_2 trig v(A2) val=0.5 rise=1 targ v(P1) val=0.5 rise=1
+meas tran d_LH_A2_2 trig v(A2) val=0.5 fall=1 targ v(P1) val=0.5 fall=1
+let d_A2_2 = (d_HL_A2_2 + d_LH_A2_2)/2
+
+
+meas tran d_HL_A2_3 trig v(A2) val=0.5 rise=1 targ v(P2) val=0.5 rise=1
+meas tran d_LH_A2_3 trig v(A2) val=0.5 fall=1 targ v(P2) val=0.5 fall=1
+let d_A2_3 = (d_HL_A2_3 + d_LH_A2_3)/2
+
+
+meas tran d_HL_A2_4 trig v(A2) val=0.5 rise=1 targ v(P3) val=0.5 rise=1
+meas tran d_LH_A2_4 trig v(A2) val=0.5 fall=1 targ v(P3) val=0.5 fall=1
+let d_A2_4 = (d_HL_A2_4 + d_LH_A2_4)/2
+
+
+meas tran d_HL_A2_5 trig v(A2) val=0.5 rise=1 targ v(P4) val=0.5 rise=1
+meas tran d_LH_A2_5 trig v(A2) val=0.5 fall=1 targ v(P4) val=0.5 fall=1
+let d_A2_5 = (d_HL_A2_5 + d_LH_A2_5)/2
+
+meas tran d_HL_A2_6 trig v(A2) val=0.5 rise=1 targ v(P5) val=0.5 rise=1
+meas tran d_LH_A2_6 trig v(A2) val=0.5 fall=1 targ v(P5) val=0.5 fall=1
+let d_A2_6 = (d_HL_A2_6 + d_LH_A2_6)/2
+
+meas tran d_HL_A2_7 trig v(A2) val=0.5 rise=1 targ v(P6) val=0.5 rise=1
+meas tran d_LH_A2_7 trig v(A2) val=0.5 fall=1 targ v(P6) val=0.5 fall=1
+let d_A2_7 = (d_HL_A2_7 + d_LH_A2_7)/2
+
+
+meas tran d_HL_A2_8 trig v(A2) val=0.5 rise=1 targ v(C5) val=0.5 rise=1
+meas tran d_LH_A2_8 trig v(A2) val=0.5 fall=1 targ v(C5) val=0.5 fall=1
+let d_A2_8 = (d_HL_A2_8 + d_LH_A2_8)/2
+
+
+echo d_A2_1: "$&d_A2_1" >> spicedelay_out.txt
+echo d_A2_2: "$&d_A2_2" >> spicedelay_out.txt
+echo d_A2_3: "$&d_A2_3" >> spicedelay_out.txt
+echo d_A2_4: "$&d_A2_4" >> spicedelay_out.txt
+echo d_A2_5: "$&d_A2_5" >> spicedelay_out.txt
+echo d_A2_6: "$&d_A2_6" >> spicedelay_out.txt
+echo d_A2_7: "$&d_A2_7" >> spicedelay_out.txt
+echo d_A2_8: "$&d_A2_8" >> spicedelay_out.txt
+
+*node A3
+
+meas tran d_HL_A3_1 trig v(A3) val=0.5 rise=1 targ v(P0) val=0.5 rise=1
+meas tran d_LH_A3_1 trig v(A3) val=0.5 fall=1 targ v(P0) val=0.5 fall=1
+let d_A3_1 = (d_HL_A3_1 + d_LH_A3_1)/2
+
+
+meas tran d_HL_A3_2 trig v(A3) val=0.5 rise=1 targ v(P1) val=0.5 rise=1
+meas tran d_LH_A3_2 trig v(A3) val=0.5 fall=1 targ v(P1) val=0.5 fall=1
+let d_A3_2 = (d_HL_A3_2 + d_LH_A3_2)/2
+
+
+meas tran d_HL_A3_3 trig v(A3) val=0.5 rise=1 targ v(P2) val=0.5 rise=1
+meas tran d_LH_A3_3 trig v(A3) val=0.5 fall=1 targ v(P2) val=0.5 fall=1
+let d_A3_3 = (d_HL_A3_3 + d_LH_A3_3)/2
+
+
+meas tran d_HL_A3_4 trig v(A3) val=0.5 rise=1 targ v(P3) val=0.5 rise=1
+meas tran d_LH_A3_4 trig v(A3) val=0.5 fall=1 targ v(P3) val=0.5 fall=1
+let d_A3_4 = (d_HL_A3_4 + d_LH_A3_4)/2
+
+
+meas tran d_HL_A3_5 trig v(A3) val=0.5 rise=1 targ v(P4) val=0.5 rise=1
+meas tran d_LH_A3_5 trig v(A3) val=0.5 fall=1 targ v(P4) val=0.5 fall=1
+let d_A3_5 = (d_HL_A3_5 + d_LH_A3_5)/2
+
+meas tran d_HL_A3_6 trig v(A3) val=0.5 rise=1 targ v(P5) val=0.5 rise=1
+meas tran d_LH_A3_6 trig v(A3) val=0.5 fall=1 targ v(P5) val=0.5 fall=1
+let d_A3_6 = (d_HL_A3_6 + d_LH_A3_6)/2
+
+meas tran d_HL_A3_7 trig v(A3) val=0.5 rise=1 targ v(P6) val=0.5 rise=1
+meas tran d_LH_A3_7 trig v(A3) val=0.5 fall=1 targ v(P6) val=0.5 fall=1
+let d_A3_7 = (d_HL_A3_7 + d_LH_A3_7)/2
+
+
+meas tran d_HL_A3_8 trig v(A3) val=0.5 rise=1 targ v(C5) val=0.5 rise=1
+meas tran d_LH_A3_8 trig v(A3) val=0.5 fall=1 targ v(C5) val=0.5 fall=1
+let d_A3_8 = (d_HL_A3_8 + d_LH_A3_8)/2
+
+
+
+echo d_A3_1: "$&d_A3_1" >> spicedelay_out.txt
+echo d_A3_2: "$&d_A3_2" >> spicedelay_out.txt
+echo d_A3_3: "$&d_A3_3" >> spicedelay_out.txt
+echo d_A3_4: "$&d_A3_4" >> spicedelay_out.txt
+echo d_A3_5: "$&d_A3_5" >> spicedelay_out.txt
+echo d_A3_6: "$&d_A3_6" >> spicedelay_out.txt
+echo d_A3_7: "$&d_A3_7" >> spicedelay_out.txt
+echo d_A3_8: "$&d_A3_8" >> spicedelay_out.txt
+
+
+let pow = (-1*V1#branch+(v(A0)*(-VA0#branch))+(v(A1)*(-VA1#branch))+(v(A2)*(-VA2#branch)+(v(A3)*(-VA3#branch))+v(B0)*(-VB0#branch))+(v(B1)*(-VB1#branch))+(v(B2)*(-VB2#branch)+(v(B3)*(-VB3#branch))))
+
+print pow >> power_leakage.txt
+.endc
+
+.end
+
+
+
+.SUBCKT NAND A B out vdd 
+	MP1 out  A vdd  vdd	CMOSP  W={width_P}  L = {LAMBDA}
+	MP2 out  B vdd  vdd	CMOSP  W={width_P}  L = {LAMBDA}
+	MN1 out  B 1    gnd 	CMOSN  W={width_N}  L = {LAMBDA}
+	MN2 1 	 A gnd    	gnd 	CMOSN  W={width_N}  L = {LAMBDA}
+.ENDS
+
+.SUBCKT NOR A B out vdd 
+	MP1 1    A 	vdd vdd	CMOSP  W={width_P}  L = {LAMBDA}
+	MP2 out  B 	1   vdd	CMOSP  W={width_P}  L = {LAMBDA}
+	MN1 out  B 	gnd    gnd 	CMOSN  W={width_N}  L = {LAMBDA}
+	MN2 out  A 	gnd    gnd 	CMOSN  W={width_N}  L = {LAMBDA}
+.ENDS
+
+.SUBCKT INV A out vdd 
+	MP1 out  A vdd  vdd	CMOSP  W={width_P}  L = {LAMBDA}
+	MN1 out  A gnd  gnd CMOSN  W={width_N}  L = {LAMBDA}
+.ENDS
+
+.SUBCKT AND A B out vdd 
+	x1 A B intermediate_out vdd NAND
+	x2 intermediate_out out vdd INV
+.ENDS
+
+.SUBCKT OR A B out vdd 
+	x1 A B intermediate_out vdd NOR
+	x2 intermediate_out out vdd INV
+.ENDS
+
+.SUBCKT XOR A B out vdd
+	x1 A 		B 		 int_out1 vdd NAND
+	x2 A 		int_out1 int_out2 vdd NAND
+	x3 B        int_out1 int_out3 vdd NAND
+	x4 int_out2 int_out3 out      vdd NAND
+.ENDS
+
+.SUBCKT HA A B Sum Carry vdd
+	x1 A B Sum	  vdd XOR
+	x2 A B Carry  vdd AND
+.ENDS
+
+.SUBCKT FA A B C Sum Carry vdd
+	x1 A  B  S1  C1 vdd HA
+	x2 S1 C  Sum C2 vdd HA
+	x3 C1 C2 Carry  vdd OR
+.ENDS

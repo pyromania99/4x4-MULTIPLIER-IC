@@ -1,0 +1,31 @@
+* SPICE3 file created from or.ext - technology: scmos
+
+.option scale=0.09u
+
+M1000 Gnd B a_n200_n35# Gnd nfet w=5 l=4
++  ad=175 pd=100 as=115 ps=56
+M1001 a_n200_7# A drain w_n219_1# pfet w=9 l=4
++  ad=207 pd=64 as=162 ps=72
+M1002 output a_n200_n35# drain w_n145_1# pfet w=9 l=5
++  ad=99 pd=40 as=0 ps=0
+M1003 output a_n200_n35# Gnd Gnd nfet w=5 l=5
++  ad=55 pd=32 as=0 ps=0
+M1004 a_n200_n35# B a_n200_7# w_n219_1# pfet w=9 l=4
++  ad=108 pd=42 as=0 ps=0
+M1005 a_n200_n35# A Gnd Gnd nfet w=5 l=4
++  ad=0 pd=0 as=0 ps=0
+C0 w_n219_1# a_n200_n35# 0.04fF
+C1 w_n145_1# a_n200_n35# 0.11fF
+C2 w_n145_1# output 0.04fF
+C3 B a_n200_n35# 0.12fF
+C4 w_n219_1# drain 0.04fF
+C5 w_n219_1# A 0.09fF
+C6 w_n145_1# drain 0.04fF
+C7 w_n219_1# B 0.09fF
+C8 Gnd Gnd 0.47fF
+C9 a_n200_n35# Gnd 0.79fF
+C10 B Gnd 0.29fF
+C11 A Gnd 0.28fF
+C12 drain Gnd 0.38fF
+C13 w_n145_1# Gnd 0.53fF
+C14 w_n219_1# Gnd 1.37fF

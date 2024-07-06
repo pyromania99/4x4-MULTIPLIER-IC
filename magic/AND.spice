@@ -1,0 +1,31 @@
+* SPICE3 file created from AND.ext - technology: scmos
+
+.option scale=0.09u
+
+M1000 drain B inv_in w_252_n265# pfet w=8 l=5
++  ad=256 pd=112 as=184 ps=62
+M1001 b_w_n A Gnd Gnd nfet w=9 l=5
++  ad=207 pd=64 as=270 ps=96
+M1002 output inv_in drain w_337_n265# pfet w=8 l=5
++  ad=136 pd=50 as=0 ps=0
+M1003 inv_in B b_w_n Gnd nfet w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1004 output inv_in Gnd Gnd nfet w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1005 inv_in A drain w_252_n265# pfet w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+C0 w_252_n265# inv_in 0.03fF
+C1 w_252_n265# A 0.12fF
+C2 B inv_in 0.20fF
+C3 w_252_n265# B 0.12fF
+C4 w_252_n265# drain 0.08fF
+C5 inv_in w_337_n265# 0.12fF
+C6 output w_337_n265# 0.03fF
+C7 w_337_n265# drain 0.04fF
+C8 Gnd Gnd 0.45fF
+C9 inv_in Gnd 0.82fF
+C10 B Gnd 0.05fF
+C11 A Gnd 0.05fF
+C12 drain Gnd 0.44fF
+C13 w_337_n265# Gnd 0.30fF
+C14 w_252_n265# Gnd 1.37fF

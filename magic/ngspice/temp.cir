@@ -1,0 +1,53 @@
+**
+.include TSMC_180nm.txt
+
+.option scale=0.09u
+.global Gnd
+
+*capacitor
+Cout output gnd 1.5f
+
+*sources
+V1  drain gnd dc 1
+VA  A gnd pulse 1 0 0 0.1n 0.1n 40n 80n
+VB  B gnd pulse 0 1 0 0.1n 0.1n 80n 160n 
+
+***
+* pulse(V1 V2 TD TR TF PW PER
+* V1 = the initial amplitude
+* V2 = the pulse amplitude
+* TD = the delay time in seconds
+* TR = the rise time in seconds
+* TF = the fall time in seconds
+* PW = the pulse width in seconds
+* PER = the period in seconds
+***
+
+
+.tran 0.01us 1us
+
+*Control 
+.control
+
+run
+plot v(A) v(output)+2 v(B)+4
+
+***
+meas tran delay_a_lh
++trig v(a) val =0.5 rise=1 targ v(output) val =0.5 fall =1
+meas tran delay_a_hl
++trig v(a) val =0.5 fall=1 targ v(output) val =0.5 rise =1
+
+meas tran delay_b_lh
++trig v(b) val =0.5 rise=1 targ v(output) val =0.5 fall =1
+meas tran delay_b_hl
++trig v(b) val =0.5 fall=1 targ v(output) val =0.5 rise =1
+
+echo delay_a_lh: "$&delay_a_lh" 
+echo delay_a_hl: "$&delay_a_hl" 
+echo delay_b_lh: "$&delay_b_lh" 
+echo delay_b_hl: "$&delay_b_hl"
+
+.endc
+
+.end

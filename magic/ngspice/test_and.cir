@@ -1,0 +1,80 @@
+**
+.include TSMC_180nm.txt
+
+.option scale=0.09u
+.global Gnd
+
+*capacitor
+Cout output gnd 1.5f
+
+*sources
+V1  drain gnd dc 1
+VA  A gnd pulse 1 0 0 0.1n 0.1n 40n 80n
+VB  B gnd pulse 0 1 0 0.1n 0.1n 80n 160n 
+
+***
+* pulse(V1 V2 TD TR TF PW PER
+* V1 = the initial amplitude
+* V2 = the pulse amplitude
+* TD = the delay time in seconds
+* TR = the rise time in seconds
+* TF = the fall time in seconds
+* PW = the pulse width in seconds
+* PER = the period in seconds
+***
+
+M1000 drain B inv_in w_252_n265# CMOSP w=8 l=5
++  ad=256 pd=112 as=184 ps=62
+M1001 b_w_n A Gnd Gnd CMOSN w=9 l=5
++  ad=207 pd=64 as=270 ps=96
+M1002 output inv_in drain w_337_n265# CMOSP w=8 l=5
++  ad=136 pd=50 as=0 ps=0
+M1003 inv_in B b_w_n Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1004 output inv_in Gnd Gnd CMOSN w=9 l=5
++  ad=135 pd=48 as=0 ps=0
+M1005 inv_in A drain w_252_n265# CMOSP w=8 l=5
++  ad=0 pd=0 as=0 ps=0
+C0 w_252_n265# inv_in 0.03fF
+C1 w_252_n265# A 0.12fF
+C2 B inv_in 0.20fF
+C3 w_252_n265# B 0.12fF
+C4 w_252_n265# drain 0.08fF
+C5 inv_in w_337_n265# 0.12fF
+C6 output w_337_n265# 0.03fF
+C7 w_337_n265# drain 0.04fF
+C8 Gnd Gnd 0.45fF
+C9 inv_in Gnd 0.82fF
+C10 B Gnd 0.05fF
+C11 A Gnd 0.05fF
+C12 drain Gnd 0.44fF
+C13 w_337_n265# Gnd 0.30fF
+C14 w_252_n265# Gnd 1.37fF
+
+.tran 0.01us 1us
+
+*Control 
+.control
+
+run
+plot v(A) v(output)+2 v(B)+4
+
+***
+meas tran delay_a_lh
++trig v(a) val =0.5 rise=1 targ v(output) val =0.5 fall =1
+meas tran delay_a_hl
++trig v(a) val =0.5 fall=1 targ v(output) val =0.5 rise =1
+
+meas tran delay_b_lh
++trig v(b) val =0.5 rise=1 targ v(output) val =0.5 fall =1
+meas tran delay_b_hl
++trig v(b) val =0.5 fall=1 targ v(output) val =0.5 rise =1
+
+echo delay_a_lh: "$&delay_a_lh" 
+echo delay_a_hl: "$&delay_a_hl" 
+echo delay_b_lh: "$&delay_b_lh" 
+echo delay_b_hl: "$&delay_b_hl"
+
+.endc
+
+.end
